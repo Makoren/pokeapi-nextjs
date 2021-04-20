@@ -32,3 +32,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
