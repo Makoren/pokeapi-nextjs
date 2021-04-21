@@ -1,54 +1,35 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Image from 'next/image';
+import { useState } from 'react';
+//import styles from '../styles/Home.module.css'
 
 export default function Home() {
+  const [searchText, setSearchText] = useState('');
+  const [pokemonData, setPokemonData] = useState({});
+
+  function search() {
+    const baseUrl = 'https://pokeapi.co/api/v2/pokemon/';
+    fetch(baseUrl + searchText.toLowerCase())
+      .then(res => res.json())
+      .then(data => setPokemonData(data));
+  }
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Did it work?
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+    <div>
+      <div>
+        <input type="text" onInput={e => setSearchText(e.target.value)}></input>
+        <button onClick={search}>Search</button>
+      </div>
+      <div>
+        <Image src={pokemonData?.sprites?.front_default ?? "/Warrior_Attack_1.png"} width={200} height={200} />
+        <span>{pokemonData?.types[0]?.type?.name ?? ""}</span>
+        <span>{pokemonData?.types[1]?.type?.name ?? ""}</span>
+        {/*
+        - Pokemon image
+        - The types of the pokemon
+        - Abilities
+        - Stats (maybe in a bar graph like Smogon)
+         */}
+      </div>
     </div>
   )
 }
