@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useState } from 'react';
 //import styles from '../styles/Home.module.css'
 
@@ -13,6 +12,20 @@ export default function Home() {
       .then(data => setPokemonData(data));
   }
 
+  function getPokemonType1() {
+    if (pokemonData?.types !== undefined) {
+      return pokemonData.types[0].type.name;
+    }
+    return undefined;
+  }
+
+  function getPokemonType2() {
+    if (pokemonData?.types !== undefined && pokemonData.types[1] !== undefined) {
+      return pokemonData.types[1].type.name;
+    }
+    return undefined;
+  }
+
   return (
     <div>
       <div>
@@ -20,9 +33,9 @@ export default function Home() {
         <button onClick={search}>Search</button>
       </div>
       <div>
-        <Image src={pokemonData?.sprites?.front_default ?? "/Warrior_Attack_1.png"} width={200} height={200} />
-        <span>{pokemonData?.types[0]?.type?.name ?? ""}</span>
-        <span>{pokemonData?.types[1]?.type?.name ?? ""}</span>
+        <img src={pokemonData?.sprites?.front_default ?? "/Warrior_Attack_1.png"} width="200" height="200" />
+        <span>{getPokemonType1() ?? ""}</span>
+        <span>{getPokemonType2() ?? ""}</span>
         {/*
         - Pokemon image
         - The types of the pokemon
